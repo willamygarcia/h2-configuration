@@ -1,0 +1,69 @@
+Usando H2
+
+    H2 é open source , gratuito para usar e distribuir .
+    Download : jar , instalador (Windows) , zip .
+    Para iniciar a ferramenta de H2 Console , clique duas vezes no arquivo jar, ou correr java -jar h2*.jar, h2.batou h2.sh.
+    Um novo banco de dados é criado automaticamente por padrão .
+    Fechar a última conexão fecha o banco de dados .
+
+Documentação
+
+Referência: gramática SQL , funções , tipos de dados , ferramentas , recursos de API : pesquisa de texto completo , criptografia , somente leitura (zip / jar) , CSV , reconexão automática , gatilhos , funções de usuário
+URLs de banco de dados
+
+
+jdbc:h2:~/test'Teste' incorporado no diretório inicial do usuário
+jdbc:h2:/data/test'teste' no diretório / dados
+jdbc:h2:./testno diretório de trabalho atual (!)
+
+
+jdbc:h2:mem:testVárias conexões na memória em um processo
+jdbc:h2:mem:privado sem nome; uma conexão
+
+Modo de servidor
+jdbc:h2:tcp://localhost/~/test home dir dir
+jdbc:h2:tcp://localhost//data/testabsoluto
+Início do servidor :java -cp *.jar org.h2.tools.Server
+
+
+jdbc:h2:..;MODE=MySQL Compatibilidade de configurações (ou HSQLDB, ...)
+jdbc:h2:..;TRACE_LEVEL_FILE=3 log para * .trace.db
+
+
+
+
+Usando a API JDBC
+
+Connection conn = DriverManager.
+    getConnection("jdbc:h2:~/test");
+conn.close();
+
+Pool de conexão
+
+import org.h2.jdbcx.JdbcConnectionPool;
+JdbcConnectionPool cp = JdbcConnectionPool.
+    create("jdbc:h2:~/test", "sa", "sa");
+Connection conn = cp.getConnection();
+conn.close(); cp.dispose();
+
+Maven 2
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.200</version>
+</dependency>
+
+Hibernar
+
+hibernate.cfg.xml (ou use o HSQLDialect):
+
+<property name="dialect">
+    org.hibernate.dialect.H2Dialect
+</property>
+
+TopLink e Glassfish
+
+Classe da fonte de dados: org.h2.jdbcx.JdbcDataSource
+oracle.toplink.essentials.platform.
+database.H2Platform
